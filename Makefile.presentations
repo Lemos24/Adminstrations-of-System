@@ -1,0 +1,193 @@
+# Makefile para gerar apresentações em múltiplos formatos
+# Uso: make lab05  - gera todos os formatos para o lab05
+#      make all    - gera para todos os laboratórios
+
+# Configurações
+PDF_ENGINE = xelatex
+BEAMER_THEME = metropolis
+LABS_DIR = labs
+
+# Cores para output
+RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[1;33m
+BLUE = \033[0;34m
+NC = \033[0m
+
+# Tarefa padrão
+.DEFAULT_GOAL := help
+
+#-----------------------------------------------------------
+# GERAR TODOS OS FORMATOS PARA UM LABORATÓRIO ESPECÍFICO
+#-----------------------------------------------------------
+lab%:
+	@$(MAKE) presentation-pdf-$*
+	@$(MAKE) presentation-html-$*
+	@$(MAKE) presentation-pptx-$*
+	@$(MAKE) presentation-beamer-$*
+	@echo ""
+	@echo "${GREEN}🎉 TODOS OS FORMATOS GERADOS PARA LAB$*!${NC}"
+	@echo "${BLUE}📊 Arquivos criados:${NC}"
+	@ls -la $(LABS_DIR)/lab$*/presentation/slides.* 2>/dev/null | sed 's/^/   /'
+
+#-----------------------------------------------------------
+# GERAR PDF NORMAL (PADRÃO)
+#-----------------------------------------------------------
+presentation-pdf-%:
+	@echo "${YELLOW}📄 Gerando PDF para lab$*...${NC}"
+	@cd $(LABS_DIR)/lab$*/presentation && \
+	if [ -f "slides.md" ]; then \
+		pandoc slides.md -o slides.pdf && \
+		echo "${GREEN}   ✅ PDF gerado: slides.pdf${NC}"; \
+	else \
+		echo "${RED}   ❌ slides.md não encontrado em lab$*/presentation${NC}"; \
+	fi
+
+#-----------------------------------------------------------
+# GERAR PDF COM TEMA BEAMER (SLIDES ACADÊMICOS)
+#-----------------------------------------------------------
+presentation-beamer-%:
+	@echo "${YELLOW}🎯 Gerando Beamer PDF para lab$*...${NC}"
+	@cd $(LABS_DIR)/lab$*/presentation && \
+	if [ -f "slides.md" ]; then \
+		pandoc slides.md -t beamer -o slides-beamer.pdf && \
+		echo "${GREEN}   ✅ Beamer PDF gerado: slides-beamer.pdf${NC}"; \
+	else \
+		echo "${RED}   ❌ slides.md não encontrado${NC}"; \
+	fi
+
+#-----------------------------------------------------------
+# GERAR PDF COM TEMA ESPECÍFICO (METROPOLIS)
+#-----------------------------------------------------------
+presentation-metropolis-%:
+	@echo "${YELLOW}🏙️ Gerando Beamer com tema Metropolis para lab$*...${NC}"
+	@cd $(LABS_DIR)/lab$*/presentation && \
+	if [ -f "slides.md" ]; then \
+		pandoc slides.md -t beamer -o slides-metropolis.pdf -V theme=$(BEAMER_THEME) && \
+		echo "${GREEN}   ✅ Metropolis PDF gerado: slides-metropolis.pdf${NC}"; \
+	else \
+		echo "${RED}   ❌ slides.md não encontrado${NC}"; \
+	fi
+
+#-----------------------------------------------------------
+# GERAR HTML INTERATIVO (REVEAL.JS)
+#-----------------------------------------------------------
+presentation-html-%:
+	@echo "${YELLOW}🌐 Gerando HTML interativo (reveal.js) para lab$*...${NC}"
+	@cd $(LABS_DIR)/lab$*/presentation && \
+	if [ -f "slides.md" ]; then \
+		pandoc slides.md -t revealjs -o slides.html --standalone && \
+		echo "${GREEN}   ✅ HTML gerado: slides.html${NC}"; \
+	else \
+		echo "${RED}   ❌ slides.md não encontrado${NC}"; \
+	fi
+
+#-----------------------------------------------------------
+# GERAR POWERPOINT
+#-----------------------------------------------------------
+presentation-pptx-%:
+	@echo "${YELLOW}📊 Gerando PowerPoint para lab$*...${NC}"
+	@cd $(LABS_DIR)/lab$*/presentation && \
+	if [ -f "slides.md" ]; then \
+		pandoc slides.md -o slides.pptx && \
+		echo "${GREEN}   ✅ PowerPoint gerado: slides.pptx${NC}"; \
+	else \
+		echo "${RED}   ❌ slides.md não encontrado${NC}"; \
+	fi
+
+#-----------------------------------------------------------
+# GERAR TODOS OS FORMATOS PARA TODOS OS LABORATÓRIOS
+#-----------------------------------------------------------
+all:
+	@echo "${BLUE}🚀 GERANDO APRESENTAÇÕES PARA TODOS OS LABORATÓRIOS${NC}"
+	@for i in 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16; do \
+		echo ""; \
+		echo "${YELLOW}════════════════════════════════════════════${NC}"; \
+		echo "${YELLOW}   LABORATÓRIO $$i${NC}"; \
+		echo "${YELLOW}════════════════════════════════════════════${NC}"; \
+		$(MAKE) lab$$i; \
+	done
+	@echo ""
+	@echo "${GREEN}✅ TODAS AS APRESENTAÇÕES GERADAS COM SUCESSO!${NC}"
+
+#-----------------------------------------------------------
+# GERAR APENAS PARA LABORATÓRIOS QUE EXISTEM
+#-----------------------------------------------------------
+auto:
+	@echo "${BLUE}🔍 Procurando laboratórios com slides.md...${NC}"
+	@for lab in $$(find $(LABS_DIR) -path "*/presentation/slides.md" | sort); do \
+		lab_dir=$$(dirname $$lab); \
+		lab_name=$$(basename $$(dirname $$lab_dir)); \
+		echo ""; \
+		echo "${YELLOW}════════════════════════════════════════════${NC}"; \
+		echo "${YELLOW}   $$lab_name${NC}"; \
+		echo "${YELLOW}════════════════════════════════════════════${NC}"; \
+		$(MAKE) $${lab_name#lab}; \
+	done
+
+#-----------------------------------------------------------
+# LIMPAR ARQUIVOS GERADOS
+#-----------------------------------------------------------
+clean-%:
+	@rm -f $(LABS_DIR)/lab$*/presentation/slides.{pdf,html,pptx} \
+	       $(LABS_DIR)/lab$*/presentation/slides-*.pdf
+	@echo "${GREEN}🧹 Apresentações do lab$* removidas${NC}"
+
+clean-all:
+	@echo "${YELLOW}🧹 Removendo todas as apresentações...${NC}"
+	@rm -f $(LABS_DIR)/*/presentation/slides.{pdf,html,pptx} \
+	       $(LABS_DIR)/*/presentation/slides-*.pdf
+	@echo "${GREEN}✅ Todas as apresentações removidas${NC}"
+
+#-----------------------------------------------------------
+# VERIFICAR LABORATÓRIOS COM SLIDES
+#-----------------------------------------------------------
+list-presentations:
+	@echo "${BLUE}📋 Laboratórios com slides.md:${NC}"
+	@for lab in $$(find $(LABS_DIR) -path "*/presentation/slides.md" | sort); do \
+		lab_name=$$(basename $$(dirname $$(dirname $$lab))); \
+		echo "   • $$lab_name"; \
+	done
+
+#-----------------------------------------------------------
+# INSTALAR DEPENDÊNCIAS PARA APRESENTAÇÕES
+#-----------------------------------------------------------
+setup-presentations:
+	@echo "${YELLOW}📦 Instalando dependências para apresentações...${NC}"
+	@sudo dnf install -y texlive-beamer texlive-revealjs texlive-metropolis
+	@echo "${GREEN}✅ Dependências instaladas${NC}"
+
+#-----------------------------------------------------------
+# AJUDA
+#-----------------------------------------------------------
+help:
+	@echo "${BLUE}📚 MAKEFILE PARA APRESENTAÇÕES${NC}"
+	@echo ""
+	@echo "${GREEN}COMANDOS PRINCIPAIS (UM MAKE FAZ TUDO):${NC}"
+	@echo "  ${YELLOW}make lab05${NC}         - Gera TODOS os formatos para lab05:"
+	@echo "                     • PDF normal (slides.pdf)"
+	@echo "                     • Beamer PDF (slides-beamer.pdf)"
+	@echo "                     • Metropolis PDF (slides-metropolis.pdf)"
+	@echo "                     • HTML reveal.js (slides.html)"
+	@echo "                     • PowerPoint (slides.pptx)"
+	@echo ""
+	@echo "  ${YELLOW}make all${NC}           - Gera TODOS os formatos para TODOS os labs (01-16)"
+	@echo "  ${YELLOW}make auto${NC}          - Gera apenas para labs que têm slides.md"
+	@echo ""
+	@echo "${GREEN}COMANDOS INDIVIDUAIS:${NC}"
+	@echo "  ${YELLOW}make presentation-pdf-05${NC}      - Apenas PDF normal"
+	@echo "  ${YELLOW}make presentation-beamer-05${NC}   - Apenas Beamer PDF"
+	@echo "  ${YELLOW}make presentation-metropolis-05${NC} - Apenas Metropolis PDF"
+	@echo "  ${YELLOW}make presentation-html-05${NC}     - Apenas HTML reveal.js"
+	@echo "  ${YELLOW}make presentation-pptx-05${NC}     - Apenas PowerPoint"
+	@echo ""
+	@echo "${GREEN}LIMPEZA:${NC}"
+	@echo "  ${YELLOW}make clean-05${NC}       - Remove apresentações do lab05"
+	@echo "  ${YELLOW}make clean-all${NC}      - Remove todas as apresentações"
+	@echo ""
+	@echo "${GREEN}UTILITÁRIOS:${NC}"
+	@echo "  ${YELLOW}make list-presentations${NC} - Lista labs com slides.md"
+	@echo "  ${YELLOW}make setup-presentations${NC} - Instala dependências"
+	@echo "  ${YELLOW}make help${NC}            - Mostra esta ajuda"
+
+.PHONY: help all auto clean-all list-presentations setup-presentations

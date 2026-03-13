@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Лемуш Мариу Франсишку">
+  <meta name="dcterms.date" content="2025-01-01">
+  <title>Лабораторная работа №13</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/CambridgeUS.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Лабораторная работа №13</h1>
+  <p class="subtitle">Настройка фильтрации пакетов в Linux
+(firewalld)</p>
+  <p class="author">Лемуш Мариу Франсишку</p>
+  <p class="date">2025</p>
+</section>
+
+<section id="докладчик" class="slide level2">
+<h2>Докладчик</h2>
+<ul>
+<li><p>Лемуш Мариу Франсишку</p></li>
+<li><p>Студент группы НПИбд-01-24</p></li>
+<li><p>Студ. билет 1032239162</p></li>
+<li><p>Российский университет дружбы народов ## Цель работы</p></li>
+<li><p>Изучить архитектуру и компоненты системы фильтрации пакетов в
+Linux</p></li>
+<li><p>Освоить основные команды для управления firewalld</p></li>
+<li><p>Научиться настраивать зоны, правила и службы</p></li>
+<li><p>Получить навыки работы с богатыми правилами (rich rules)</p></li>
+</ul>
+</section>
+<section id="теоретическая-справка" class="slide level2">
+<h2>Теоретическая справка</h2>
+<p><strong>Firewalld — динамический межсетевой экран</strong></p>
+<p>Основные компоненты: - Зоны (zones) — наборы правил для разных
+уровней доверия - Службы (services) — предопределённые правила - Богатые
+правила (rich rules) — сложные правила с условиями - Команда:
+<code>firewall-cmd</code> — основная для управления</p>
+</section>
+<section id="проверка-статуса-firewalld" class="slide level2">
+<h2>Проверка статуса firewalld</h2>
+<figure>
+<img data-src="../image/1.png"
+alt="Рис. 1. Проверка статуса службы firewalld с помощью systemctl" />
+<figcaption aria-hidden="true">Рис. 1. Проверка статуса службы firewalld
+с помощью systemctl</figcaption>
+</figure>
+</section>
+<section id="просмотр-всех-доступных-зон" class="slide level2">
+<h2>Просмотр всех доступных зон</h2>
+<figure>
+<img data-src="../image/2.png"
+alt="Рис. 2. Просмотр всех доступных зон с помощью firewall-cmd –get-zones" />
+<figcaption aria-hidden="true">Рис. 2. Просмотр всех доступных зон с
+помощью firewall-cmd –get-zones</figcaption>
+</figure>
+</section>
+<section id="просмотр-зоны-по-умолчанию" class="slide level2">
+<h2>Просмотр зоны по умолчанию</h2>
+<figure>
+<img data-src="../image/3.png"
+alt="Рис. 3. Просмотр зоны по умолчанию с помощью firewall-cmd –get-default-zone" />
+<figcaption aria-hidden="true">Рис. 3. Просмотр зоны по умолчанию с
+помощью firewall-cmd –get-default-zone</figcaption>
+</figure>
+</section>
+<section id="детальная-информация-о-зоне-по-умолчанию"
+class="slide level2">
+<h2>Детальная информация о зоне по умолчанию</h2>
+<figure>
+<img data-src="../image/4.png"
+alt="Рис. 4. Детальная информация о зоне public с помощью firewall-cmd –zone=public –list-all" />
+<figcaption aria-hidden="true">Рис. 4. Детальная информация о зоне
+public с помощью firewall-cmd –zone=public –list-all</figcaption>
+</figure>
+</section>
+<section id="просмотр-всех-активных-зон" class="slide level2">
+<h2>Просмотр всех активных зон</h2>
+<figure>
+<img data-src="../image/5.png"
+alt="Рис. 5. Просмотр всех активных зон с помощью firewall-cmd –get-active-zones" />
+<figcaption aria-hidden="true">Рис. 5. Просмотр всех активных зон с
+помощью firewall-cmd –get-active-zones</figcaption>
+</figure>
+</section>
+<section id="просмотр-всех-доступных-служб" class="slide level2">
+<h2>Просмотр всех доступных служб</h2>
+<figure>
+<img data-src="../image/6.png"
+alt="Рис. 6. Просмотр списка всех доступных служб с помощью firewall-cmd –get-services" />
+<figcaption aria-hidden="true">Рис. 6. Просмотр списка всех доступных
+служб с помощью firewall-cmd –get-services</figcaption>
+</figure>
+</section>
+<section id="информация-о-конкретной-службе" class="slide level2">
+<h2>Информация о конкретной службе</h2>
+<figure>
+<img data-src="../image/7.png"
+alt="Рис. 7. Просмотр информации о службе HTTP с помощью firewall-cmd –info-service=http" />
+<figcaption aria-hidden="true">Рис. 7. Просмотр информации о службе HTTP
+с помощью firewall-cmd –info-service=http</figcaption>
+</figure>
+</section>
+<section id="изменение-зоны-по-умолчанию" class="slide level2">
+<h2>Изменение зоны по умолчанию</h2>
+<figure>
+<img data-src="../image/8.png"
+alt="Рис. 8. Изменение зоны по умолчанию на internal" />
+<figcaption aria-hidden="true">Рис. 8. Изменение зоны по умолчанию на
+internal</figcaption>
+</figure>
+</section>
+<section id="добавление-интерфейса-в-зону" class="slide level2">
+<h2>Добавление интерфейса в зону</h2>
+<figure>
+<img data-src="../image/9.png"
+alt="Рис. 9. Добавление интерфейса eth0 в зону public" />
+<figcaption aria-hidden="true">Рис. 9. Добавление интерфейса eth0 в зону
+public</figcaption>
+</figure>
+</section>
+<section id="изменение-зоны-для-интерфейса" class="slide level2">
+<h2>Изменение зоны для интерфейса</h2>
+<figure>
+<img data-src="../image/10.png"
+alt="Рис. 10. Изменение зоны интерфейса на internal" />
+<figcaption aria-hidden="true">Рис. 10. Изменение зоны интерфейса на
+internal</figcaption>
+</figure>
+</section>
+<section id="удаление-интерфейса-из-зоны" class="slide level2">
+<h2>Удаление интерфейса из зоны</h2>
+<figure>
+<img data-src="../image/11.png"
+alt="Рис. 11. Удаление интерфейса из зоны public" />
+<figcaption aria-hidden="true">Рис. 11. Удаление интерфейса из зоны
+public</figcaption>
+</figure>
+</section>
+<section id="просмотр-всех-правил-всех-зон" class="slide level2">
+<h2>Просмотр всех правил всех зон</h2>
+<figure>
+<img data-src="../image/12.png"
+alt="Рис. 12. Просмотр всех правил всех зон с помощью firewall-cmd –list-all-zones" />
+<figcaption aria-hidden="true">Рис. 12. Просмотр всех правил всех зон с
+помощью firewall-cmd –list-all-zones</figcaption>
+</figure>
+</section>
+<section id="добавление-службы-в-зону" class="slide level2">
+<h2>Добавление службы в зону</h2>
+<figure>
+<img data-src="../image/13.png"
+alt="Рис. 13. Добавление службы HTTP в зону public" />
+<figcaption aria-hidden="true">Рис. 13. Добавление службы HTTP в зону
+public</figcaption>
+</figure>
+</section>
+<section id="добавление-нескольких-служб" class="slide level2">
+<h2>Добавление нескольких служб</h2>
+<figure>
+<img data-src="../image/14.png"
+alt="Рис. 14. Добавление нескольких служб (http, https, ssh) в зону public" />
+<figcaption aria-hidden="true">Рис. 14. Добавление нескольких служб
+(http, https, ssh) в зону public</figcaption>
+</figure>
+</section>
+<section id="удаление-службы-из-зоны" class="slide level2">
+<h2>Удаление службы из зоны</h2>
+<figure>
+<img data-src="../image/15.png"
+alt="Рис. 15. Удаление службы HTTP из зоны public" />
+<figcaption aria-hidden="true">Рис. 15. Удаление службы HTTP из зоны
+public</figcaption>
+</figure>
+</section>
+<section id="открытие-конкретного-порта" class="slide level2">
+<h2>Открытие конкретного порта</h2>
+<figure>
+<img data-src="../image/16.png"
+alt="Рис. 16. Открытие порта 8080/tcp в зоне public" />
+<figcaption aria-hidden="true">Рис. 16. Открытие порта 8080/tcp в зоне
+public</figcaption>
+</figure>
+</section>
+<section id="открытие-диапазона-портов" class="slide level2">
+<h2>Открытие диапазона портов</h2>
+<p><img data-src="../image/17.png"
+alt="Рис. 17. Открытие диапазона портов 8000-9000/tcp в зоне public" />
+## Закрытие порта</p>
+<figure>
+<img data-src="../image/18.png"
+alt="Рис. 18. Закрытие порта 8080/tcp в зоне public" />
+<figcaption aria-hidden="true">Рис. 18. Закрытие порта 8080/tcp в зоне
+public</figcaption>
+</figure>
+</section>
+<section id="добавление-богатого-правила-для-источника"
+class="slide level2">
+<h2>Добавление богатого правила для источника</h2>
+<figure>
+<img data-src="../image/19.png"
+alt="Рис. 19. Добавление богатого правила для конкретного IP-адреса" />
+<figcaption aria-hidden="true">Рис. 19. Добавление богатого правила для
+конкретного IP-адреса</figcaption>
+</figure>
+</section>
+<section id="добавление-богатого-правила-с-ограничением"
+class="slide level2">
+<h2>Добавление богатого правила с ограничением</h2>
+<figure>
+<img data-src="../image/20.png"
+alt="Рис. 20. Добавление богатого правила с ограничением частоты для SSH" />
+<figcaption aria-hidden="true">Рис. 20. Добавление богатого правила с
+ограничением частоты для SSH</figcaption>
+</figure>
+</section>
+<section id="добавление-богатого-правила-для-протокола"
+class="slide level2">
+<h2>Добавление богатого правила для протокола</h2>
+<figure>
+<img data-src="../image/21.png"
+alt="Рис. 21. Добавление богатого правила для протокола ICMP" />
+<figcaption aria-hidden="true">Рис. 21. Добавление богатого правила для
+протокола ICMP</figcaption>
+</figure>
+</section>
+<section id="просмотр-всех-богатых-правил" class="slide level2">
+<h2>Просмотр всех богатых правил</h2>
+<figure>
+<img data-src="../image/22.png"
+alt="Рис. 22. Просмотр всех богатых правил в зоне public" />
+<figcaption aria-hidden="true">Рис. 22. Просмотр всех богатых правил в
+зоне public</figcaption>
+</figure>
+</section>
+<section id="перезагрузка-и-сохранение-правил" class="slide level2">
+<h2>Перезагрузка и сохранение правил</h2>
+<figure>
+<img data-src="../image/23.png"
+alt="Рис. 23. Перезагрузка конфигурации firewalld и сохранение временных правил" />
+<figcaption aria-hidden="true">Рис. 23. Перезагрузка конфигурации
+firewalld и сохранение временных правил</figcaption>
+</figure>
+</section>
+<section id="вывод" class="slide level2">
+<h2>Вывод</h2>
+<p>В ходе выполнения лабораторной работы была изучена система фильтрации
+пакетов firewalld в Linux. Получены практические навыки управления
+зонами, добавления и удаления служб и портов, настройки богатых правил
+для тонкой фильтрации трафика.</p>
+</section>
+<section id="список-литературы" class="slide level2">
+<h2>Список литературы</h2>
+<p>[1] Linux man pages: firewalld(1), firewall-cmd(1),
+firewall-config(1)</p>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

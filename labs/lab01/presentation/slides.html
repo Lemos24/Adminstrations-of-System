@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Лемуш Мариу Франсишку">
+  <meta name="dcterms.date" content="2025-01-01">
+  <title>Лабораторная работа №1</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/CambridgeUS.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Лабораторная работа №1</h1>
+  <p class="subtitle">Установка операционной системы Linux</p>
+  <p class="author">Лемуш Мариу Франсишку</p>
+  <p class="date">2025</p>
+</section>
+
+<section id="докладчик" class="slide level2">
+<h2>Докладчик</h2>
+<ul>
+<li>Лемуш Мариу Франсишку</li>
+<li>Студент группы НПИбд-01-24</li>
+<li>Студ. билет 1032239162</li>
+<li>Российский университет дружбы народов</li>
+</ul>
+</section>
+<section id="цель-работы" class="slide level2">
+<h2>Цель работы</h2>
+<ul>
+<li>Получить практические навыки установки операционной системы на
+виртуальную машину</li>
+<li>Научиться настраивать минимально необходимые сервисы для дальнейшей
+работы</li>
+</ul>
+</section>
+<section id="теоретическая-справка" class="slide level2">
+<h2>Теоретическая справка</h2>
+<p><strong>Установка ОС Linux</strong></p>
+<p>Основные этапы: - Создание виртуальной машины - Настройка параметров
+оборудования - Установка дистрибутива - Первоначальная настройка системы
+- Установка дополнительного ПО</p>
+</section>
+<section id="скачивание-виртуальной-машины" class="slide level2">
+<h2>Скачивание виртуальной машины</h2>
+<figure>
+<img data-src="../image/1.png"
+alt="Рис. 1. Скачивание виртуальной машины Rocky" />
+<figcaption aria-hidden="true">Рис. 1. Скачивание виртуальной машины
+Rocky</figcaption>
+</figure>
+</section>
+<section id="скачивание-дистрибутива-linux-rocky" class="slide level2">
+<h2>Скачивание дистрибутива Linux Rocky</h2>
+<figure>
+<img data-src="../image/2.png"
+alt="Рис. 2. Скачивание дистрибутива Linux Rocky. Установка Linux версии Red Hat на виртуальную машину" />
+<figcaption aria-hidden="true">Рис. 2. Скачивание дистрибутива Linux
+Rocky. Установка Linux версии Red Hat на виртуальную машину</figcaption>
+</figure>
+</section>
+<section id="установка-linux-версии-red-hat-64-bit"
+class="slide level2">
+<h2>Установка Linux версии Red Hat (64-bit)</h2>
+<figure>
+<img data-src="../image/3.png"
+alt="Рис. 3. Установка Linux версии Red Hat (64-bit). Указание объёма памяти" />
+<figcaption aria-hidden="true">Рис. 3. Установка Linux версии Red Hat
+(64-bit). Указание объёма памяти</figcaption>
+</figure>
+</section>
+<section id="указание-объёма-памяти" class="slide level2">
+<h2>Указание объёма памяти</h2>
+<figure>
+<img data-src="../image/4.png"
+alt="Рис. 4. Указание объёма памяти. Жесткий диск" />
+<figcaption aria-hidden="true">Рис. 4. Указание объёма памяти. Жесткий
+диск</figcaption>
+</figure>
+</section>
+<section id="создание-нового-виртуального-жёсткого-диска"
+class="slide level2">
+<h2>Создание нового виртуального жёсткого диска</h2>
+<figure>
+<img data-src="../image/5.png"
+alt="Рис. 5. Создание нового виртуального жёсткого диска. Указание типа" />
+<figcaption aria-hidden="true">Рис. 5. Создание нового виртуального
+жёсткого диска. Указание типа</figcaption>
+</figure>
+</section>
+<section id="указание-типа-vdi" class="slide level2">
+<h2>Указание типа VDI</h2>
+<figure>
+<img data-src="../image/6.png"
+alt="Рис. 6. Указание типа VDI (VirtualBox Disk Image). Указание формата хранения" />
+<figcaption aria-hidden="true">Рис. 6. Указание типа VDI (VirtualBox
+Disk Image). Указание формата хранения</figcaption>
+</figure>
+</section>
+<section id="указание-формата-хранения" class="slide level2">
+<h2>Указание формата хранения</h2>
+<figure>
+<img data-src="../image/7.png"
+alt="Рис. 7. Указание формата хранения. Размер и имя файла" />
+<figcaption aria-hidden="true">Рис. 7. Указание формата хранения. Размер
+и имя файла</figcaption>
+</figure>
+</section>
+<section id="указание-имени-и-размера-файла" class="slide level2">
+<h2>Указание имени и размера файла</h2>
+<figure>
+<img data-src="../image/8.png"
+alt="Рис. 8. Указание имени и размера файла. Носители" />
+<figcaption aria-hidden="true">Рис. 8. Указание имени и размера файла.
+Носители</figcaption>
+</figure>
+</section>
+<section id="добавление-оптического-привода-rocky" class="slide level2">
+<h2>Добавление оптического привода Rocky</h2>
+<figure>
+<img data-src="../image/9.png"
+alt="Рис. 9. Добавление оптического привода Rocky. Запуск виртуальной машины" />
+<figcaption aria-hidden="true">Рис. 9. Добавление оптического привода
+Rocky. Запуск виртуальной машины</figcaption>
+</figure>
+</section>
+<section id="запуск-виртуальной-машины" class="slide level2">
+<h2>Запуск виртуальной машины</h2>
+<figure>
+<img data-src="../image/10.png"
+alt="Рис. 10. Запуск виртуальной машины. Установка Rocky Linux 9.0" />
+<figcaption aria-hidden="true">Рис. 10. Запуск виртуальной машины.
+Установка Rocky Linux 9.0</figcaption>
+</figure>
+</section>
+<section id="установка-rocky-linux-9.0" class="slide level2">
+<h2>Установка Rocky Linux 9.0</h2>
+<figure>
+<img data-src="../image/11.png"
+alt="Рис. 11. Установка Rocky Linux 9.0. Настройки установки операционной системы" />
+<figcaption aria-hidden="true">Рис. 11. Установка Rocky Linux 9.0.
+Настройки установки операционной системы</figcaption>
+</figure>
+</section>
+<section id="настройки-установки-операционной-системы"
+class="slide level2">
+<h2>Настройки установки операционной системы</h2>
+<figure>
+<img data-src="../image/12.png"
+alt="Рис. 12. Настройки установки операционной системы. Выбор языка и региона" />
+<figcaption aria-hidden="true">Рис. 12. Настройки установки операционной
+системы. Выбор языка и региона</figcaption>
+</figure>
+</section>
+<section id="место-установки-и-выбор-программ" class="slide level2">
+<h2>Место установки и выбор программ</h2>
+<figure>
+<img data-src="../image/13.png"
+alt="Рис. 13. Место установки. Выбор программ и настройка разделов" />
+<figcaption aria-hidden="true">Рис. 13. Место установки. Выбор программ
+и настройка разделов</figcaption>
+</figure>
+</section>
+<section id="отключение-kdump-и-настройка-сети" class="slide level2">
+<h2>Отключение KDUMP и настройка сети</h2>
+<figure>
+<img data-src="../image/14.png"
+alt="Рис. 14. Отключение KDUMP. Сеть и имя узла" />
+<figcaption aria-hidden="true">Рис. 14. Отключение KDUMP. Сеть и имя
+узла</figcaption>
+</figure>
+</section>
+<section id="установка-пароля-для-root" class="slide level2">
+<h2>Установка пароля для root</h2>
+<figure>
+<img data-src="../image/15.png"
+alt="Рис. 15. Установка пароля для root. Создание пользователя" />
+<figcaption aria-hidden="true">Рис. 15. Установка пароля для root.
+Создание пользователя</figcaption>
+</figure>
+</section>
+<section id="процесс-установки-системы" class="slide level2">
+<h2>Процесс установки системы</h2>
+<figure>
+<img data-src="../image/16.png"
+alt="Рис. 16. Процесс установки операционной системы" />
+<figcaption aria-hidden="true">Рис. 16. Процесс установки операционной
+системы</figcaption>
+</figure>
+</section>
+<section id="завершение-установки-и-первый-запуск" class="slide level2">
+<h2>Завершение установки и первый запуск</h2>
+<figure>
+<img data-src="../image/17.png"
+alt="Рис. 17. Завершение установки и первый запуск системы" />
+<figcaption aria-hidden="true">Рис. 17. Завершение установки и первый
+запуск системы</figcaption>
+</figure>
+</section>
+<section id="вывод" class="slide level2">
+<h2>Вывод</h2>
+<p>В ходе выполнения лабораторной работы были приобретены практические
+навыки установки операционной системы на виртуальную машину и настройки
+минимально необходимых для дальнейшей работы сервисов.</p>
+</section>
+<section id="список-литературы" class="slide level2">
+<h2>Список литературы</h2>
+<p>[1] Документация Rocky Linux: https://docs.rockylinux.org [2]
+Руководство по установке VirtualBox</p>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

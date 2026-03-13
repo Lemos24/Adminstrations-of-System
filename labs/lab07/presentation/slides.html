@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Лемуш Мариу Франсишку">
+  <meta name="dcterms.date" content="2025-01-01">
+  <title>Лабораторная работа №7</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/CambridgeUS.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Лабораторная работа №7</h1>
+  <p class="subtitle">Управление журналами событий в системе</p>
+  <p class="author">Лемуш Мариу Франсишку</p>
+  <p class="date">2025</p>
+</section>
+
+<section id="докладчик" class="slide level2">
+<h2>Докладчик</h2>
+<ul>
+<li><p>Лемуш Мариу Франсишку</p></li>
+<li><p>Студент группы НПИбд-01-24</p></li>
+<li><p>Студ. билет 1032239162</p></li>
+<li><p>Российский университет дружбы народов ## Цель работы</p></li>
+<li><p>Получить навыки работы с журналами мониторинга различных событий
+в системе</p></li>
+<li><p>Изучить систему журналирования rsyslog</p></li>
+<li><p>Освоить работу с journalctl</p></li>
+</ul>
+</section>
+<section id="теоретическая-справка" class="slide level2">
+<h2>Теоретическая справка</h2>
+<p><strong>Журналы событий в Linux</strong></p>
+<p>Основные понятия: - <code>rsyslog</code> — система журналирования
+событий - <code>journalctl</code> — утилита для просмотра журнала
+systemd - <code>/var/log/</code> — директория с файлами журналов -
+Уровни логирования: debug, info, warning, error</p>
+</section>
+<section id="запуск-терминалов-и-мониторинга" class="slide level2">
+<h2>Запуск терминалов и мониторинга</h2>
+<figure>
+<img data-src="../image/1.png"
+alt="Рис. 1. Запуск трёх вкладок терминала, получение полномочий администратора в каждой вкладке, запуск на второй вкладке терминала мониторинга системных событий в реальном времени" />
+<figcaption aria-hidden="true">Рис. 1. Запуск трёх вкладок терминала,
+получение полномочий администратора в каждой вкладке, запуск на второй
+вкладке терминала мониторинга системных событий в реальном
+времени</figcaption>
+</figure>
+</section>
+<section id="ошибка-при-вводе-пароля" class="slide level2">
+<h2>Ошибка при вводе пароля</h2>
+<figure>
+<img data-src="../image/2.png"
+alt="Рис. 2. Возвращение учётной записи своего пользователя в третьей вкладке терминала, попытка получения полномочий администратора" />
+<figcaption aria-hidden="true">Рис. 2. Возвращение учётной записи своего
+пользователя в третьей вкладке терминала, попытка получения полномочий
+администратора</figcaption>
+</figure>
+</section>
+<section id="новое-сообщение-в-мониторинге" class="slide level2">
+<h2>Новое сообщение в мониторинге</h2>
+<figure>
+<img data-src="../image/3.png"
+alt="Рис. 3. Новое сообщение в мониторинге событий во второй вкладке терминала" />
+<figcaption aria-hidden="true">Рис. 3. Новое сообщение в мониторинге
+событий во второй вкладке терминала</figcaption>
+</figure>
+</section>
+<section id="работа-в-третьей-вкладке" class="slide level2">
+<h2>Работа в третьей вкладке</h2>
+<figure>
+<img data-src="../image/4.png"
+alt="Рис. 4. Ввод в третьей вкладке терминала" />
+<figcaption aria-hidden="true">Рис. 4. Ввод в третьей вкладке
+терминала</figcaption>
+</figure>
+</section>
+<section id="просмотр-сообщений-мониторинга" class="slide level2">
+<h2>Просмотр сообщений мониторинга</h2>
+<figure>
+<img data-src="../image/5.png"
+alt="Рис. 5. Возвращение во вторую вкладку терминала с мониторингом событий, просмотр сообщения, остановка трассировки файла сообщений мониторинга реального времени, запуск мониторинга сообщений безопасности (последние 20 строк)" />
+<figcaption aria-hidden="true">Рис. 5. Возвращение во вторую вкладку
+терминала с мониторингом событий, просмотр сообщения, остановка
+трассировки файла сообщений мониторинга реального времени, запуск
+мониторинга сообщений безопасности (последние 20 строк)</figcaption>
+</figure>
+</section>
+<section id="установка-apache" class="slide level2">
+<h2>Установка Apache</h2>
+<figure>
+<img data-src="../image/6.png" alt="Рис. 6. Установка Apache" />
+<figcaption aria-hidden="true">Рис. 6. Установка Apache</figcaption>
+</figure>
+</section>
+<section id="запуск-веб-службы" class="slide level2">
+<h2>Запуск веб-службы</h2>
+<figure>
+<img data-src="../image/7.png" alt="Рис. 7. Запуск веб-службы" />
+<figcaption aria-hidden="true">Рис. 7. Запуск веб-службы</figcaption>
+</figure>
+</section>
+<section id="журнал-ошибок-веб-службы" class="slide level2">
+<h2>Журнал ошибок веб-службы</h2>
+<figure>
+<img data-src="../image/8.png"
+alt="Рис. 8. Просмотр журнала сообщений об ошибках веб-службы, закрытие трассировки файла журнала" />
+<figcaption aria-hidden="true">Рис. 8. Просмотр журнала сообщений об
+ошибках веб-службы, закрытие трассировки файла журнала</figcaption>
+</figure>
+</section>
+<section id="открытие-файла-httpd.conf" class="slide level2">
+<h2>Открытие файла httpd.conf</h2>
+<figure>
+<img data-src="../image/9.png"
+alt="Рис. 9. Получение в третьей вкладке терминала полномочия администратора, открытие файла httpd.conf на редактирование" />
+<figcaption aria-hidden="true">Рис. 9. Получение в третьей вкладке
+терминала полномочия администратора, открытие файла httpd.conf на
+редактирование</figcaption>
+</figure>
+</section>
+<section id="добавление-строки-в-файл" class="slide level2">
+<h2>Добавление строки в файл</h2>
+<figure>
+<img data-src="../image/10.png"
+alt="Рис. 10. Добавление строки в файл и сохранение" />
+<figcaption aria-hidden="true">Рис. 10. Добавление строки в файл и
+сохранение</figcaption>
+</figure>
+</section>
+<section id="создание-файла-мониторинга" class="slide level2">
+<h2>Создание файла мониторинга</h2>
+<figure>
+<img data-src="../image/11.png"
+alt="Рис. 11. Создание в каталоге /etc/rsyslog.d файла мониторинга событий веб-службы и открытие его на редактирование" />
+<figcaption aria-hidden="true">Рис. 11. Создание в каталоге
+/etc/rsyslog.d файла мониторинга событий веб-службы и открытие его на
+редактирование</figcaption>
+</figure>
+</section>
+<section id="добавление-строки-в-файл-мониторинга" class="slide level2">
+<h2>Добавление строки в файл мониторинга</h2>
+<figure>
+<img data-src="../image/12.png"
+alt="Рис. 12. Добавление строки в файл и сохранение" />
+<figcaption aria-hidden="true">Рис. 12. Добавление строки в файл и
+сохранение</figcaption>
+</figure>
+</section>
+<section id="перезагрузка-конфигурации" class="slide level2">
+<h2>Перезагрузка конфигурации</h2>
+<figure>
+<img data-src="../image/13.png"
+alt="Рис. 13. Открытие первой вкладки терминала и перезагрузка конфигурации rsyslogd и веб-службы" />
+<figcaption aria-hidden="true">Рис. 13. Открытие первой вкладки
+терминала и перезагрузка конфигурации rsyslogd и веб-службы</figcaption>
+</figure>
+</section>
+<section id="создание-файла-для-отладочной-информации"
+class="slide level2">
+<h2>Создание файла для отладочной информации</h2>
+<figure>
+<img data-src="../image/14.png"
+alt="Рис. 14. Открытие третьей вкладки терминала, создание отдельного файла конфигурации для мониторинга отладочной информации, ввод заданной строки" />
+<figcaption aria-hidden="true">Рис. 14. Открытие третьей вкладки
+терминала, создание отдельного файла конфигурации для мониторинга
+отладочной информации, ввод заданной строки</figcaption>
+</figure>
+</section>
+<section id="перезапуск-rsyslogd" class="slide level2">
+<h2>Перезапуск rsyslogd</h2>
+<figure>
+<img data-src="../image/15.png"
+alt="Рис. 15. Открытие первой вкладки терминала и перезапуск rsyslogd" />
+<figcaption aria-hidden="true">Рис. 15. Открытие первой вкладки
+терминала и перезапуск rsyslogd</figcaption>
+</figure>
+</section>
+<section id="запуск-мониторинга-отладочной-информации"
+class="slide level2">
+<h2>Запуск мониторинга отладочной информации</h2>
+<figure>
+<img data-src="../image/16.png"
+alt="Рис. 16. Открытие второй вкладки терминала и запуск мониторинга отладочной информации" />
+<figcaption aria-hidden="true">Рис. 16. Открытие второй вкладки
+терминала и запуск мониторинга отладочной информации</figcaption>
+</figure>
+</section>
+<section id="ввод-команды" class="slide level2">
+<h2>Ввод команды</h2>
+<figure>
+<img data-src="../image/17.png"
+alt="Рис. 17. Открытие третьей вкладки терминала и ввод команды" />
+<figcaption aria-hidden="true">Рис. 17. Открытие третьей вкладки
+терминала и ввод команды</figcaption>
+</figure>
+</section>
+<section id="просмотр-сообщения-отладки" class="slide level2">
+<h2>Просмотр сообщения отладки</h2>
+<figure>
+<img data-src="../image/18.png"
+alt="Рис. 18. Просмотр сообщения отладки и закрытие трассировки файла журнала" />
+<figcaption aria-hidden="true">Рис. 18. Просмотр сообщения отладки и
+закрытие трассировки файла журнала</figcaption>
+</figure>
+</section>
+<section id="просмотр-журнала-с-journalctl" class="slide level2">
+<h2>Просмотр журнала с journalctl</h2>
+<figure>
+<img data-src="../image/19.png"
+alt="Рис. 19. Открытие второй вкладки терминала и просмотр содержимого журнала с событиями с момента последнего запуска системы" />
+<figcaption aria-hidden="true">Рис. 19. Открытие второй вкладки
+терминала и просмотр содержимого журнала с событиями с момента
+последнего запуска системы</figcaption>
+</figure>
+</section>
+<section id="содержимое-журнала-без-пейджера" class="slide level2">
+<h2>Содержимое журнала без пейджера</h2>
+<figure>
+<img data-src="../image/20.png"
+alt="Рис. 20. Просмотр содержимого журнала без использования пейджера" />
+<figcaption aria-hidden="true">Рис. 20. Просмотр содержимого журнала без
+использования пейджера</figcaption>
+</figure>
+</section>
+<section id="режим-просмотра-в-реальном-времени" class="slide level2">
+<h2>Режим просмотра в реальном времени</h2>
+<figure>
+<img data-src="../image/21.png"
+alt="Рис. 21. Режим просмотра журнала в реальном времени и прерывание просмотра" />
+<figcaption aria-hidden="true">Рис. 21. Режим просмотра журнала в
+реальном времени и прерывание просмотра</figcaption>
+</figure>
+</section>
+<section id="события-для-uid0" class="slide level2">
+<h2>События для UID0</h2>
+<figure>
+<img data-src="../image/22.png"
+alt="Рис. 22. Просмотр событий для UID0" />
+<figcaption aria-hidden="true">Рис. 22. Просмотр событий для
+UID0</figcaption>
+</figure>
+</section>
+<section id="последние-20-строк-журнала" class="slide level2">
+<h2>Последние 20 строк журнала</h2>
+<figure>
+<img data-src="../image/23.png"
+alt="Рис. 23. Отображение последних 20 строк журнала" />
+<figcaption aria-hidden="true">Рис. 23. Отображение последних 20 строк
+журнала</figcaption>
+</figure>
+</section>
+<section id="сообщения-об-ошибках" class="slide level2">
+<h2>Сообщения об ошибках</h2>
+<figure>
+<img data-src="../image/24.png"
+alt="Рис. 24. Просмотр только сообщений об ошибках" />
+<figcaption aria-hidden="true">Рис. 24. Просмотр только сообщений об
+ошибках</figcaption>
+</figure>
+</section>
+<section id="сообщения-со-вчерашнего-дня" class="slide level2">
+<h2>Сообщения со вчерашнего дня</h2>
+<figure>
+<img data-src="../image/25.png"
+alt="Рис. 25. Просмотр всех сообщений со вчерашнего дня" />
+<figcaption aria-hidden="true">Рис. 25. Просмотр всех сообщений со
+вчерашнего дня</figcaption>
+</figure>
+</section>
+<section id="сообщения-с-ошибкой-приоритета" class="slide level2">
+<h2>Сообщения с ошибкой приоритета</h2>
+<figure>
+<img data-src="../image/26.png"
+alt="Рис. 26. Просмотр сообщений с ошибкой приоритета, которые были зафиксированы со вчерашнего дня. Просмотр детальной информации" />
+<figcaption aria-hidden="true">Рис. 26. Просмотр сообщений с ошибкой
+приоритета, которые были зафиксированы со вчерашнего дня. Просмотр
+детальной информации</figcaption>
+</figure>
+</section>
+<section id="информация-о-модуле-sshd" class="slide level2">
+<h2>Информация о модуле sshd</h2>
+<figure>
+<img data-src="../image/27.png"
+alt="Рис. 27. Просмотр дополнительной информации о модуле sshd" />
+<figcaption aria-hidden="true">Рис. 27. Просмотр дополнительной
+информации о модуле sshd</figcaption>
+</figure>
+</section>
+<section id="работа-с-постоянным-журналом-journald"
+class="slide level2">
+<h2>Работа с постоянным журналом journald</h2>
+<figure>
+<img data-src="../image/28.png"
+alt="Рис. 28. Запуск терминала и получение полномочий администратора, создание каталога для хранения записей журнала, корректировка прав доступа для каталога /var/log/journal, принятия изменений, просмотр сообщения журнала с момента последней перезагрузки" />
+<figcaption aria-hidden="true">Рис. 28. Запуск терминала и получение
+полномочий администратора, создание каталога для хранения записей
+журнала, корректировка прав доступа для каталога /var/log/journal,
+принятия изменений, просмотр сообщения журнала с момента последней
+перезагрузки</figcaption>
+</figure>
+</section>
+<section id="итоговая-проверка" class="slide level2">
+<h2>Итоговая проверка</h2>
+<figure>
+<img data-src="../image/29.png"
+alt="Рис. 29. Итоговая проверка работы с журналами событий" />
+<figcaption aria-hidden="true">Рис. 29. Итоговая проверка работы с
+журналами событий</figcaption>
+</figure>
+</section>
+<section id="вывод" class="slide level2">
+<h2>Вывод</h2>
+<p>В ходе выполнения лабораторной работы были получены навыки работы с
+журналами мониторинга различных событий в системе. Освоены методы
+мониторинга системных событий в реальном времени, настройка правил
+rsyslog.conf, работа с journalctl для просмотра и фильтрации
+журналов.</p>
+</section>
+<section id="список-литературы" class="slide level2">
+<h2>Список литературы</h2>
+<p>[1] Linux man pages: rsyslogd(8), journalctl(1), logger(1)</p>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

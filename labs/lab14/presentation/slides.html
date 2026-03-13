@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Лемуш Мариу Франсишку">
+  <meta name="dcterms.date" content="2025-01-01">
+  <title>Лабораторная работа №14</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/CambridgeUS.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Лабораторная работа №14</h1>
+  <p class="subtitle">Управление дисками, разделами и файловыми
+системами</p>
+  <p class="author">Лемуш Мариу Франсишку</p>
+  <p class="date">2025</p>
+</section>
+
+<section id="докладчик" class="slide level2">
+<h2>Докладчик</h2>
+<ul>
+<li><p>Лемуш Мариу Франсишку</p></li>
+<li><p>Студент группы НПИбд-01-24</p></li>
+<li><p>Студ. билет 1032239162</p></li>
+<li><p>Российский университет дружбы народов ## Цель работы</p></li>
+<li><p>Изучить архитектуру управления дисками в ОС Linux</p></li>
+<li><p>Освоить основные команды для работы с разделами диска</p></li>
+<li><p>Научиться создавать и удалять разделы</p></li>
+<li><p>Получить навыки создания файловых систем</p></li>
+<li><p>Освоить методы монтирования и размонтирования</p></li>
+</ul>
+</section>
+<section id="теоретическая-справка" class="slide level2">
+<h2>Теоретическая справка</h2>
+<p><strong>Управление дисками в Linux</strong></p>
+<p>Основные понятия: - Раздел диска — логическая область на физическом
+диске - Таблица разделов — MBR или GPT - Файловая система — способ
+организации данных - Точка монтирования — директория для доступа к
+ФС</p>
+<p>Основные команды: - <code>lsblk</code>, <code>fdisk</code>,
+<code>parted</code> — работа с разделами - <code>mkfs</code> — создание
+файловых систем - <code>mount</code>, <code>umount</code> — монтирование
+- <code>blkid</code> — просмотр UUID</p>
+</section>
+<section id="просмотр-всех-дисков-и-разделов" class="slide level2">
+<h2>Просмотр всех дисков и разделов</h2>
+<figure>
+<img data-src="../image/1.png"
+alt="Рис. 1. Просмотр всех дисков и разделов с помощью lsblk" />
+<figcaption aria-hidden="true">Рис. 1. Просмотр всех дисков и разделов с
+помощью lsblk</figcaption>
+</figure>
+</section>
+<section id="детальная-информация-о-дисках" class="slide level2">
+<h2>Детальная информация о дисках</h2>
+<figure>
+<img data-src="../image/2.png"
+alt="Рис. 2. Детальная информация о дисках с помощью fdisk -l" />
+<figcaption aria-hidden="true">Рис. 2. Детальная информация о дисках с
+помощью fdisk -l</figcaption>
+</figure>
+</section>
+<section id="информация-о-конкретном-диске" class="slide level2">
+<h2>Информация о конкретном диске</h2>
+<figure>
+<img data-src="../image/3.png"
+alt="Рис. 3. Просмотр информации о диске /dev/sda" />
+<figcaption aria-hidden="true">Рис. 3. Просмотр информации о диске
+/dev/sda</figcaption>
+</figure>
+</section>
+<section id="просмотр-uuid-файловых-систем" class="slide level2">
+<h2>Просмотр UUID файловых систем</h2>
+<figure>
+<img data-src="../image/4.png"
+alt="Рис. 4. Просмотр UUID всех файловых систем с помощью blkid" />
+<figcaption aria-hidden="true">Рис. 4. Просмотр UUID всех файловых
+систем с помощью blkid</figcaption>
+</figure>
+</section>
+<section id="просмотр-смонтированных-файловых-систем"
+class="slide level2">
+<h2>Просмотр смонтированных файловых систем</h2>
+<figure>
+<img data-src="../image/5.png"
+alt="Рис. 5. Просмотр использования дискового пространства с помощью df -h" />
+<figcaption aria-hidden="true">Рис. 5. Просмотр использования дискового
+пространства с помощью df -h</figcaption>
+</figure>
+</section>
+<section id="просмотр-информации-о-inode" class="slide level2">
+<h2>Просмотр информации о inode</h2>
+<figure>
+<img data-src="../image/6.png"
+alt="Рис. 6. Просмотр использования inode с помощью df -i" />
+<figcaption aria-hidden="true">Рис. 6. Просмотр использования inode с
+помощью df -i</figcaption>
+</figure>
+</section>
+<section id="информация-о-разделах-в-procpartitions"
+class="slide level2">
+<h2>Информация о разделах в /proc/partitions</h2>
+<figure>
+<img data-src="../image/7.png"
+alt="Рис. 7. Информация о разделах в файле /proc/partitions" />
+<figcaption aria-hidden="true">Рис. 7. Информация о разделах в файле
+/proc/partitions</figcaption>
+</figure>
+</section>
+<section id="информация-о-блочных-устройствах-в-sys"
+class="slide level2">
+<h2>Информация о блочных устройствах в /sys</h2>
+<figure>
+<img data-src="../image/8.png"
+alt="Рис. 8. Информация о блочных устройствах в директории /sys/block/" />
+<figcaption aria-hidden="true">Рис. 8. Информация о блочных устройствах
+в директории /sys/block/</figcaption>
+</figure>
+</section>
+<section id="запуск-fdisk-для-диска" class="slide level2">
+<h2>Запуск fdisk для диска</h2>
+<figure>
+<img data-src="../image/9.png"
+alt="Рис. 9. Запуск fdisk для /dev/sdb" />
+<figcaption aria-hidden="true">Рис. 9. Запуск fdisk для
+/dev/sdb</figcaption>
+</figure>
+</section>
+<section id="просмотр-таблицы-разделов-в-fdisk" class="slide level2">
+<h2>Просмотр таблицы разделов в fdisk</h2>
+<figure>
+<img data-src="../image/10.png"
+alt="Рис. 10. Просмотр текущей таблицы разделов в fdisk (команда p)" />
+<figcaption aria-hidden="true">Рис. 10. Просмотр текущей таблицы
+разделов в fdisk (команда p)</figcaption>
+</figure>
+</section>
+<section id="создание-нового-раздела" class="slide level2">
+<h2>Создание нового раздела</h2>
+<figure>
+<img data-src="../image/11.png"
+alt="Рис. 11. Создание нового раздела в fdisk (команда n)" />
+<figcaption aria-hidden="true">Рис. 11. Создание нового раздела в fdisk
+(команда n)</figcaption>
+</figure>
+</section>
+<section id="выбор-типа-раздела" class="slide level2">
+<h2>Выбор типа раздела</h2>
+<figure>
+<img data-src="../image/12.png"
+alt="Рис. 12. Выбор типа раздела (primary/extended)" />
+<figcaption aria-hidden="true">Рис. 12. Выбор типа раздела
+(primary/extended)</figcaption>
+</figure>
+</section>
+<section id="указание-номера-раздела" class="slide level2">
+<h2>Указание номера раздела</h2>
+<figure>
+<img data-src="../image/13.png"
+alt="Рис. 13. Указание номера создаваемого раздела" />
+<figcaption aria-hidden="true">Рис. 13. Указание номера создаваемого
+раздела</figcaption>
+</figure>
+</section>
+<section id="указание-первого-сектора" class="slide level2">
+<h2>Указание первого сектора</h2>
+<figure>
+<img data-src="../image/14.png"
+alt="Рис. 14. Определение начального сектора раздела" />
+<figcaption aria-hidden="true">Рис. 14. Определение начального сектора
+раздела</figcaption>
+</figure>
+</section>
+<section id="указание-размера-раздела" class="slide level2">
+<h2>Указание размера раздела</h2>
+<figure>
+<img data-src="../image/15.png"
+alt="Рис. 15. Определение размера создаваемого раздела" />
+<figcaption aria-hidden="true">Рис. 15. Определение размера создаваемого
+раздела</figcaption>
+</figure>
+</section>
+<section id="изменение-типа-раздела" class="slide level2">
+<h2>Изменение типа раздела</h2>
+<figure>
+<img data-src="../image/16.png"
+alt="Рис. 16. Изменение типа раздела (команда t)" />
+<figcaption aria-hidden="true">Рис. 16. Изменение типа раздела (команда
+t)</figcaption>
+</figure>
+</section>
+<section id="выбор-кода-типа-раздела" class="slide level2">
+<h2>Выбор кода типа раздела</h2>
+<figure>
+<img data-src="../image/17.png"
+alt="Рис. 17. Установка типа раздела (Linux, swap и т.д.)" />
+<figcaption aria-hidden="true">Рис. 17. Установка типа раздела (Linux,
+swap и т.д.)</figcaption>
+</figure>
+</section>
+<section id="список-всех-типов-разделов" class="slide level2">
+<h2>Список всех типов разделов</h2>
+<figure>
+<img data-src="../image/18.png"
+alt="Рис. 18. Список всех типов разделов (команда l)" />
+<figcaption aria-hidden="true">Рис. 18. Список всех типов разделов
+(команда l)</figcaption>
+</figure>
+</section>
+<section id="удаление-раздела" class="slide level2">
+<h2>Удаление раздела</h2>
+<figure>
+<img data-src="../image/19.png"
+alt="Рис. 19. Удаление раздела (команда d)" />
+<figcaption aria-hidden="true">Рис. 19. Удаление раздела (команда
+d)</figcaption>
+</figure>
+</section>
+<section id="сохранение-изменений" class="slide level2">
+<h2>Сохранение изменений</h2>
+<figure>
+<img data-src="../image/20.png"
+alt="Рис. 20. Сохранение изменений в fdisk (команда w)" />
+<figcaption aria-hidden="true">Рис. 20. Сохранение изменений в fdisk
+(команда w)</figcaption>
+</figure>
+</section>
+<section id="выход-без-сохранения" class="slide level2">
+<h2>Выход без сохранения</h2>
+<figure>
+<img data-src="../image/21.png"
+alt="Рис. 21. Выход из fdisk без сохранения (команда q)" />
+<figcaption aria-hidden="true">Рис. 21. Выход из fdisk без сохранения
+(команда q)</figcaption>
+</figure>
+</section>
+<section id="запуск-parted-для-диска" class="slide level2">
+<h2>Запуск parted для диска</h2>
+<figure>
+<img data-src="../image/22.png"
+alt="Рис. 22. Запуск parted для /dev/sdb" />
+<figcaption aria-hidden="true">Рис. 22. Запуск parted для
+/dev/sdb</figcaption>
+</figure>
+</section>
+<section id="просмотр-разделов-в-parted" class="slide level2">
+<h2>Просмотр разделов в parted</h2>
+<figure>
+<img data-src="../image/23.png"
+alt="Рис. 23. Просмотр таблицы разделов в parted (команда print)" />
+<figcaption aria-hidden="true">Рис. 23. Просмотр таблицы разделов в
+parted (команда print)</figcaption>
+</figure>
+</section>
+<section id="создание-таблицы-разделов-gpt" class="slide level2">
+<h2>Создание таблицы разделов GPT</h2>
+<figure>
+<img data-src="../image/24.png"
+alt="Рис. 24. Создание таблицы разделов GPT (команда mklabel gpt)" />
+<figcaption aria-hidden="true">Рис. 24. Создание таблицы разделов GPT
+(команда mklabel gpt)</figcaption>
+</figure>
+</section>
+<section id="создание-раздела-в-parted" class="slide level2">
+<h2>Создание раздела в parted</h2>
+<figure>
+<img data-src="../image/25.png"
+alt="Рис. 25. Создание раздела в parted (команда mkpart)" />
+<figcaption aria-hidden="true">Рис. 25. Создание раздела в parted
+(команда mkpart)</figcaption>
+</figure>
+</section>
+<section id="создание-файловой-системы-ext4" class="slide level2">
+<h2>Создание файловой системы ext4</h2>
+<figure>
+<img data-src="../image/26.png"
+alt="Рис. 26. Создание файловой системы ext4 на разделе /dev/sdb1" />
+<figcaption aria-hidden="true">Рис. 26. Создание файловой системы ext4
+на разделе /dev/sdb1</figcaption>
+</figure>
+</section>
+<section id="создание-файловой-системы-xfs" class="slide level2">
+<h2>Создание файловой системы XFS</h2>
+<figure>
+<img data-src="../image/27.png"
+alt="Рис. 27. Создание файловой системы XFS на разделе /dev/sdb2" />
+<figcaption aria-hidden="true">Рис. 27. Создание файловой системы XFS на
+разделе /dev/sdb2</figcaption>
+</figure>
+</section>
+<section id="создание-раздела-подкачки-swap" class="slide level2">
+<h2>Создание раздела подкачки (swap)</h2>
+<figure>
+<img data-src="../image/28.png"
+alt="Рис. 28. Создание раздела подкачки с помощью mkswap" />
+<figcaption aria-hidden="true">Рис. 28. Создание раздела подкачки с
+помощью mkswap</figcaption>
+</figure>
+</section>
+<section id="создание-файловой-системы-ext3" class="slide level2">
+<h2>Создание файловой системы ext3</h2>
+<figure>
+<img data-src="../image/29.png"
+alt="Рис. 29. Создание файловой системы ext3 на разделе /dev/sdb4" />
+<figcaption aria-hidden="true">Рис. 29. Создание файловой системы ext3
+на разделе /dev/sdb4</figcaption>
+</figure>
+</section>
+<section id="создание-файловой-системы-с-меткой" class="slide level2">
+<h2>Создание файловой системы с меткой</h2>
+<figure>
+<img data-src="../image/30.png"
+alt="Рис. 30. Создание файловой системы с меткой ( -L mydata)" />
+<figcaption aria-hidden="true">Рис. 30. Создание файловой системы с
+меткой ( -L mydata)</figcaption>
+</figure>
+</section>
+<section id="ручное-монтирование-раздела" class="slide level2">
+<h2>Ручное монтирование раздела</h2>
+<figure>
+<img data-src="../image/31.png"
+alt="Рис. 31. Ручное монтирование раздела /dev/sdb1 в /mnt/data" />
+<figcaption aria-hidden="true">Рис. 31. Ручное монтирование раздела
+/dev/sdb1 в /mnt/data</figcaption>
+</figure>
+</section>
+<section id="просмотр-всех-смонтированных-фс" class="slide level2">
+<h2>Просмотр всех смонтированных ФС</h2>
+<figure>
+<img data-src="../image/32.png"
+alt="Рис. 32. Просмотр всех смонтированных файловых систем (команда mount)" />
+<figcaption aria-hidden="true">Рис. 32. Просмотр всех смонтированных
+файловых систем (команда mount)</figcaption>
+</figure>
+</section>
+<section id="монтирование-по-uuid" class="slide level2">
+<h2>Монтирование по UUID</h2>
+<figure>
+<img data-src="../image/33.png"
+alt="Рис. 33. Монтирование раздела по UUID" />
+<figcaption aria-hidden="true">Рис. 33. Монтирование раздела по
+UUID</figcaption>
+</figure>
+</section>
+<section id="монтирование-с-опциями" class="slide level2">
+<h2>Монтирование с опциями</h2>
+<figure>
+<img data-src="../image/34.png"
+alt="Рис. 34. Монтирование с опциями noexec,nosuid" />
+<figcaption aria-hidden="true">Рис. 34. Монтирование с опциями
+noexec,nosuid</figcaption>
+</figure>
+</section>
+<section id="размонтирование-раздела" class="slide level2">
+<h2>Размонтирование раздела</h2>
+<figure>
+<img data-src="../image/35.png"
+alt="Рис. 35. Размонтирование раздела с помощью umount" />
+<figcaption aria-hidden="true">Рис. 35. Размонтирование раздела с
+помощью umount</figcaption>
+</figure>
+</section>
+<section id="принудительное-размонтирование" class="slide level2">
+<h2>Принудительное размонтирование</h2>
+<figure>
+<img data-src="../image/36.png"
+alt="Рис. 36. Принудительное размонтирование (umount -l)" />
+<figcaption aria-hidden="true">Рис. 36. Принудительное размонтирование
+(umount -l)</figcaption>
+</figure>
+</section>
+<section id="просмотр-файла-etcfstab" class="slide level2">
+<h2>Просмотр файла /etc/fstab</h2>
+<figure>
+<img data-src="../image/37.png"
+alt="Рис. 37. Просмотр содержимого файла /etc/fstab" />
+<figcaption aria-hidden="true">Рис. 37. Просмотр содержимого файла
+/etc/fstab</figcaption>
+</figure>
+</section>
+<section id="добавление-записи-в-etcfstab" class="slide level2">
+<h2>Добавление записи в /etc/fstab</h2>
+<figure>
+<img data-src="../image/38.png"
+alt="Рис. 38. Добавление строки для автоматического монтирования в /etc/fstab" />
+<figcaption aria-hidden="true">Рис. 38. Добавление строки для
+автоматического монтирования в /etc/fstab</figcaption>
+</figure>
+</section>
+<section id="проверка-монтирования-из-fstab" class="slide level2">
+<h2>Проверка монтирования из fstab</h2>
+<figure>
+<img data-src="../image/39.png"
+alt="Рис. 39. Проверка монтирования всех файловых систем из /etc/fstab (mount -a)" />
+<figcaption aria-hidden="true">Рис. 39. Проверка монтирования всех
+файловых систем из /etc/fstab (mount -a)</figcaption>
+</figure>
+</section>
+<section id="вывод" class="slide level2">
+<h2>Вывод</h2>
+<p>В ходе выполнения лабораторной работы были изучены методы управления
+дисками, разделами и файловыми системами в ОС Linux. Получены
+практические навыки просмотра информации о дисках с помощью команд
+<code>lsblk</code>, <code>fdisk -l</code>, <code>blkid</code>. Освоены
+методы создания и удаления разделов с использованием <code>fdisk</code>
+и <code>parted</code>, создания файловых систем различных типов
+(<code>ext4</code>, <code>xfs</code>, <code>swap</code>), ручного и
+автоматического монтирования через <code>mount</code> и настройки
+<code>/etc/fstab</code>.</p>
+</section>
+<section id="список-литературы" class="slide level2">
+<h2>Список литературы</h2>
+<p>[1] Linux man pages: fdisk(8), parted(8), mkfs(8), mount(8),
+umount(8), blkid(8), lsblk(8)</p>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
